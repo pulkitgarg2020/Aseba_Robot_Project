@@ -8,6 +8,5 @@ The project is based on the principles of a state machine and uses Aseba program
 
 ## How to setup?
 
-You would require the Aseba studio to run this program which can be downloaded from the following link.
+You would require the Aseba studio to run this program which can be downloaded from the following link. Make sure to download the Aseba studio for textual programming. 
 * http://wiki.thymio.org/en:wininstall
-Make sure to download the Aseba studio for textual programming. 
