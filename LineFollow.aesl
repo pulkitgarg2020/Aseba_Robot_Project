@@ -1,0 +1,140 @@
+<!DOCTYPE aesl-source>
+<network>
+
+
+<!--list of global events-->
+
+
+<!--list of constants-->
+<constant value="300" name="THRESHOLD"/>
+<constant value="0" name="STOPPED"/>
+<constant value="1" name="LEFT"/>
+<constant value="2" name="RIGHT"/>
+<constant value="3" name="BLOCKED"/>
+<constant value="0" name="THRESHOLD2"/>
+<constant value="4" name="TURN_RIGHT"/>
+<constant value="5" name="AROUND"/>
+<constant value="6" name="AROUND2"/>
+
+
+<!--show keywords state-->
+<keywords flag="true"/>
+
+
+<!--node thymio-II-->
+<node nodeId="1" name="thymio-II">var state = STOPPED # variable declarations
+var min
+var max
+var mean
+var TARGET = 500
+timer.period[0] = 0
+motor.left.target = 0 # reset motors
+motor.right.target = 0
+call leds.top(0,0,0)
+
+###################################################################
+# to stop the robot 
+sub to_stop
+	state = STOPPED # transition to STOPPED state
+	call leds.circle(0,0,32,32,32,32,32,0)
+	motor.left.target = 0 # stop motors
+	motor.right.target = 0
+
+
+# when there is an object ahead 
+sub block 
+	state = BLOCKED
+	call leds.circle(32,32,32,32,32,32,32,32)
+	motor.left.target = 0
+	motor.right.target = 0
+	######################
+	timer.period[0] = 0
+
+# to transition to right state 
+sub to_right 
+	state = RIGHT # transition to RIGHT state
+	call leds.circle(0,0,32,0,0,0,0,0)
+	motor.left.target = TARGET # move right
+	### speed changed from 200 to 250 
+	motor.right.target = 210
+	######################
+	timer.period[0] = 0
+
+# to transition to left state 
+sub to_left
+	state = LEFT # transition to LEFT state
+	call leds.circle(0,0,0,0,0,0,32,0)
+	### speed changed from 200 to 250 
+	motor.left.target = 210 # start moving forward 
+	motor.right.target = TARGET
+	######################
+	timer.period[0] = 0
+
+sub block_to_right
+	state = TURN_RIGHT
+	call leds.circle(32,32,0,0,0,0,0,32)
+	motor.right.target = -500
+	motor.left.target = 500
+	######################
+	timer.period[0] = 0
+
+sub block_around
+	state = AROUND
+	#####################
+	timer.period[0] = 1600
+	call leds.circle(32,32,32,32,32,32,32,32)
+	motor.right.target = 300 + 200
+	motor.left.target = 300 - 25
+
+###################################################################
+
+
+# on forward button press
+onevent button.forward 
+	state = LEFT # transition to LEFT state
+	motor.left.target = TARGET
+	motor.right.target = TARGET
+	call leds.circle(0,0,0,0,0,0,32,0)
+
+# on backward button press
+onevent button.backward 
+	callsub to_stop
+
+onevent prox # on prox event
+if state != STOPPED then # if robot is moving
+	# if moving left and not sensing black line
+	if (state == LEFT) and (prox.ground.delta[1] &lt; THRESHOLD)  then
+		callsub to_right
+	end
+	# if moving right and sensing black line
+	if (state == RIGHT) and (prox.ground.delta[0] &lt; THRESHOLD) then
+		callsub to_left
+	end	
+	if state == AROUND2 or state == AROUND and (prox.ground.delta[1] &lt; THRESHOLD or prox.ground.delta[0] &lt; THRESHOLD) then
+		callsub to_right
+	end
+end
+
+if state!= STOPPED then
+	call math.stat( prox.horizontal[0:4], min, max, mean )
+	# to move the robot to right when there is a blockage 
+	while max > THRESHOLD2 do
+		callsub block_to_right
+		call math.stat(prox.horizontal[0:4], min, max, mean)
+	end
+	if state == TURN_RIGHT and max &lt;= THRESHOLD2 then
+		callsub block_around
+	end
+end
+
+onevent timer0
+	if state == AROUND then
+		state = AROUND2
+		call leds.circle(0,0,0,32,0,32,0,0)
+		motor.right.target = 300 + 200
+		motor.left.target = 300 - 50
+	end
+</node>
+
+
+</network>
