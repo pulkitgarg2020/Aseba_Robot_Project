@@ -4,12 +4,12 @@ This project is to make the Aseba robot follow thick black taped path with obsta
 
 The project is based on the principles of a state machine and uses Aseba programming language. Writing this program required programming the motors, five frontal proximity sensors and two ground proximity sensorus. Also the LEDs at the top of the robot has been programmed to show which state the robot is in. 
 
-You would require an actual Thymio robot to run this program. The details for the same could be found on the following link:
-* https://www.thymio.org/buy/
-
 A video has been provided in the repo to depict a sample run of the program on a real robot. 
 
 ## How to setup?
+
+* You would require an actual Thymio robot to run this program. The details for the same could be found on the following link:
+  - https://www.thymio.org/buy/
 
 * You would require the Aseba studio to run this program which can be downloaded from the following link. Make sure to download the Aseba studio for textual programming. 
   - http://wiki.thymio.org/en:wininstall
