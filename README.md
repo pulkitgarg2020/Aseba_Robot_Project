@@ -1,12 +1,29 @@
 # Aseba_Robot_Project
 
-This project is to make the Aseba robot follow a 1.5 to 2 cm thick black taped path with obstacles on the way. The obstales on the track are green plastic Duplo hurdles which are 10cm wide, 3cm deep and 6 cm high. As soon as the robot detects and object, it is programmed to go around the object from the right and then follow the line back again. 
+This project is to make the Aseba robot follow thick black taped path with obstacles on the way. The obstales on the track are green plastic Duplo hurdles which are 10cm wide, 3cm deep and 6 cm high. As soon as the robot detects and object, it is programmed to go around the object from the right and then follow the line back again. 
 
-A simulator is provided in the repo which can be used to test the program. However, the program has been tested on the physical Thymio robot. A video has been provided in the repo to depict a sample run of the program on a real robot. 
+The project is based on the principles of a state machine and uses Aseba programming language. Writing this program required programming the motors, five frontal proximity sensors and two ground proximity sensorus. Also the LEDs at the top of the robot has been programmed to show which state the robot is in. 
 
-The project is based on the principles of a state machine and uses Aseba programming language. Writing this program required programming the motors, five frontal proximity sensors and two ground proximity sensorus. Also the LEDs at the top of the robot has been programmed to show which state the robot is in.  
+You would require an actual Thymio robot to run this program. The details for the same could be found on the following link:
+* https://www.thymio.org/buy/
+
+A video has been provided in the repo to depict a sample run of the program on a real robot. 
 
 ## How to setup?
 
-You would require the Aseba studio to run this program which can be downloaded from the following link. Make sure to download the Aseba studio for textual programming. 
-* http://wiki.thymio.org/en:wininstall
+* You would require the Aseba studio to run this program which can be downloaded from the following link. Make sure to download the Aseba studio for textual programming. 
+  - http://wiki.thymio.org/en:wininstall
+
+## How to run?
+
+* Connect your robot with your computer and then run the studio. 
+* Open the .aesl program provided in the repo from the studio.
+* Since the robot follows a black tape, setup a track with a 1.5 to 2 cm thick black tape with hurdles on the way.
+* Load the program on the robot by clicking on the 'Load' button in the top left corner in the studio. 
+* Run the program by clicking on the "Run" button
+* Keep the robot at the starting point of the track
+* Press the arrow button, at the top of robot, pointing towards the front. 
+
+
+
+
